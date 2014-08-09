@@ -107,7 +107,7 @@ int FindProcess(DWORD* processes, int numberOfProcesses, wstring processName)
 
 	return -1;
 }
-
+/*
 int main(void)
 {/*
 	DWORD* processes;
@@ -121,16 +121,23 @@ int main(void)
 	if (numberOfProcesses < 0)
 	{
 		return 0;
-	}*/
+	}
 
 	StartProgram(L"C:\\Program Files (x86)\\XBMC\\XBMC.exe");
 
-	/*
+	
 	if (FindProcess(processes, numberOfProcesses, L"XBMC.exe") == -1)
 	{
 	}
 
 	delete[] processes;
-	*/
+	
+	return 0;
+}
+*/
+int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	StartProgram(L"C:\\Program Files (x86)\\XBMC\\XBMC.exe");
+
 	return 0;
 }
