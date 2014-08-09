@@ -109,7 +109,7 @@ int FindProcess(DWORD* processes, int numberOfProcesses, wstring processName)
 }
 
 int main(void)
-{
+{/*
 	DWORD* processes;
 	DWORD listSize = 100;
 	
@@ -121,15 +121,16 @@ int main(void)
 	if (numberOfProcesses < 0)
 	{
 		return 0;
-	}
+	}*/
 
 	StartProgram(L"C:\\Program Files (x86)\\XBMC\\XBMC.exe");
 
+	/*
 	if (FindProcess(processes, numberOfProcesses, L"XBMC.exe") == -1)
 	{
 	}
 
 	delete[] processes;
-
+	*/
 	return 0;
 }
