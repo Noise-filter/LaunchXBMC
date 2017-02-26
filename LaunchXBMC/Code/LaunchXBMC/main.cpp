@@ -107,12 +107,65 @@ int FindProcess(DWORD* processes, int numberOfProcesses, wstring processName)
 
 	return -1;
 }
+
+BOOL CALLBACK EnumWindowsProc(HWND windowHandle, LPARAM lParam)
+{
+	DWORD processID = (DWORD)lParam;
+	DWORD windowProcessID = 0;
+	DWORD foreThread = GetWindowThreadProcessId(windowHandle, &windowProcessID);
+	DWORD appThread = GetCurrentThreadId();
+	if (windowProcessID == processID)
+	{
+		SetForegroundWindow(windowHandle);
+		return false;
+	}
+	return true;
+}
+
+void BringToForeground(DWORD processID)
+{
+	EnumWindows(&EnumWindowsProc, (LPARAM)processID);
+}
+
 /*
 int main(void)
 {/*
 	DWORD* processes;
 	DWORD listSize = 100;
+
+	processes = new DWORD[listSize];
+
+	// Get the list of process identifiers.
+	int numberOfProcesses = GetListOfProcesses(processes, listSize);
+
+	if (numberOfProcesses < 0)
+	{
+		return 0;
+	}
+
+	int index = FindProcess(processes, numberOfProcesses, L"XBMC.exe");
+
+	if (index != -1)
+	{
+		BringToForeground(processes[index]);
+		cout << processes[index] << endl;
+	}
+	else
+	{
+		cout << "Starting XBMC" << endl;
+		StartProgram(L"C:\\Program Files (x86)\\XBMC\\XBMC.exe");
+	}
+
+	delete[] processes;
 	
+	return 0;
+}
+*/
+int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	DWORD* processes;
+	DWORD listSize = 100;
+
 	processes = new DWORD[listSize];
 
 	// Get the list of process identifiers.
@@ -124,20 +177,20 @@ int main(void)
 	}
 
 	StartProgram(L"C:\\Program Files (x86)\\XBMC\\XBMC.exe");
-
 	
-	if (FindProcess(processes, numberOfProcesses, L"XBMC.exe") == -1)
+	/*int index = FindProcess(processes, numberOfProcesses, L"XBMC.exe");
+
+	if (index != -1)
 	{
+		BringToForeground(processes[index]);
 	}
+	else
+	{
+		StartProgram(L"C:\\Program Files (x86)\\XBMC\\XBMC.exe");
+	}
+	*/
 
 	delete[] processes;
-	
-	return 0;
-}
-*/
-int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
-	StartProgram(L"C:\\Program Files (x86)\\XBMC\\XBMC.exe");
 
 	return 0;
 }
